@@ -1,0 +1,51 @@
+body {
+    text-align: center;
+}
+
+#input-container {
+    background-color: #add8e6;
+    border: 2px solid #00bfff;
+    border-radius: 10px;
+    width: 50%;
+    padding: 30px 10px;
+    margin: auto;
+}
+
+#search-input {
+    margin: 30px;
+}
+
+input {
+    height: 20px;
+}
+
+button {
+    height: 25px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+    margin: auto;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+}
+
+tbody > tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.error {
+    color: red;
+    display: none;
+}
