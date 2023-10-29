@@ -11,6 +11,7 @@ const locationtag = document.getElementById("location");
 const gists = document.getElementById("gists");
 const reposList = document.getElementById("repos");
 
+// Event listner for search button click
 searchButton.addEventListener("click", () => {
     const username = usernameInput.value.trim();
     if (username !== "") {
@@ -18,6 +19,7 @@ searchButton.addEventListener("click", () => {
     }
 });
 
+// Fetch user information
 function fetchUserInfo(gitname) {
     fetch(`https://api.github.com/users/${gitname}`)
         .then((response) => {
@@ -27,9 +29,11 @@ function fetchUserInfo(gitname) {
             return response.json();
         })
         .then((data) => {
+            // Hide error messages and display user information
             noResult.style.display = "none";
             infoContainer.style.display = "flex";
 
+            // Update fields with user data
             avatar.src = data.avatar_url;
             fullname.textContent = data.name;
             username.textContent = data.login;
@@ -37,31 +41,40 @@ function fetchUserInfo(gitname) {
             email.textContent = data.email || "No email available";
             locationtag.textContent = data.location || "No location available";
             gists.textContent = data.public_gists;
-            console.log(data);
+
             // Fetch repositories
             fetch(data.repos_url)
                 .then((response) => response.json())
                 .then((repos) => {
                     displayRepositories(repos);
+                    if (data.public_repos > 5) {
+                        reposList.style.overflowY = "scroll";
+                    } else {
+                        reposList.style.overflowY = "visible";
+                    }
                 });
         })
         .catch((error) => {
             console.error(error);
-            infoContainer.style.display = "none";
-            noResult.style.display = "block";
-            clearUserInfo();
+            infoContainer.style.display = "none"; // Remove user data template
+            noResult.style.display = "block"; // Display error message
+            clearUserInfo(); // Wipe any in-progress data obtained
         });
 }
 
+// Display all the repositories along with their description
 function displayRepositories(repos) {
     reposList.innerHTML = "";
     repos.forEach((repo) => {
+        // Add a list item for each repo
         const listItem = document.createElement("li");
-        listItem.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a>`;
+        listItem.innerHTML = `<a href="${repo.html_url}" target="_blank" class="fill-div">${repo.name}
+        <p>${repo.description}</p></a>`;
         reposList.appendChild(listItem);
     });
 }
 
+// Clear user information
 function clearUserInfo() {
     avatar.src = "";
     fullname.textContent = "";

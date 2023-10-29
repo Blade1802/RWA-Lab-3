@@ -72,18 +72,35 @@ button {
 }
 
 .repo-list {
-    flex: 1;
+    flex: 2;
     text-align: left;
     padding: 20px;
 }
 
-ul {
+#repos {
     list-style-type: none;
     padding: 0;
-    max-height: 200px;
-    overflow-y: auto;
+    max-height: 650px;
+    /* overflow-y: auto; */
 }
 
 li {
     margin-bottom: 10px;
+    border: 1px solid white;
+    padding: 20px;
+    height: 80px;
+}
+
+a.fill-div {
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    display: block;
+    color: white;
+    font-weight: bold;
+}
+
+a > p {
+    color: grey;
+    font-weight: lighter;
 }
