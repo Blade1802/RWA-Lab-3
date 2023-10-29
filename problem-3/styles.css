@@ -32,8 +32,15 @@ button {
     flex: 1;
 }
 
-.info-container {
-    display: flex;
+#noResult {
+    color: red;
+    text-align: left;
+    padding: 20px;
+    display: none;
+}
+
+#info-container {
+    display: none;
 }
 
 .user-info {

@@ -1,3 +1,5 @@
+const infoContainer = document.getElementById("info-container");
+const noResult = document.getElementById("noResult");
 const usernameInput = document.getElementById("username-input");
 const searchButton = document.getElementById("search-button");
 const avatar = document.getElementById("avatar");
@@ -18,15 +20,23 @@ searchButton.addEventListener("click", () => {
 
 function fetchUserInfo(gitname) {
     fetch(`https://api.github.com/users/${gitname}`)
-        .then((response) => response.json())
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Error fetching user: ${response.status}`);
+            }
+            return response.json();
+        })
         .then((data) => {
+            noResult.style.display = "none";
+            infoContainer.style.display = "flex";
+
             avatar.src = data.avatar_url;
             fullname.textContent = data.name;
             username.textContent = data.login;
             bio.textContent = data.bio || "No bio available";
             email.textContent = data.email || "No email available";
             locationtag.textContent = data.location || "No location available";
-            gists.innerHTML = data.public_gists;
+            gists.textContent = data.public_gists;
             console.log(data);
             // Fetch repositories
             fetch(data.repos_url)
@@ -37,6 +47,8 @@ function fetchUserInfo(gitname) {
         })
         .catch((error) => {
             console.error(error);
+            infoContainer.style.display = "none";
+            noResult.style.display = "block";
             clearUserInfo();
         });
 }
@@ -52,7 +64,11 @@ function displayRepositories(repos) {
 
 function clearUserInfo() {
     avatar.src = "";
+    fullname.textContent = "";
     username.textContent = "";
     bio.textContent = "";
+    email.textContent = "";
+    locationtag.textContent = "";
+    gists.textContent = "";
     reposList.innerHTML = "";
 }
